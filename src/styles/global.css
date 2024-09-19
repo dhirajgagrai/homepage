@@ -1,0 +1,137 @@
+/*
+  The CSS in this style tag is based off of Bear Blog's default CSS.
+  https://github.com/HermanMartinus/bearblog/blob/297026a877bc2ab2b3bdfbd6b9f7961c350917dd/templates/styles/blog/default.css
+  License MIT: https://github.com/HermanMartinus/bearblog/blob/master/LICENSE.md
+ */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Inconsolata', sans-serif;
+    font-size: 1.15rem;
+    margin: auto;
+    padding: 0 10px;
+    max-width: 75ch;
+    min-height: 100vh;
+    text-align: left;
+    background-color: #f8f6ef;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #444;
+}
+
+main {
+    flex: 1;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+strong,
+b {
+    color: #222;
+}
+
+a {
+    color: #222;
+}
+
+a:hover {
+    text-decoration-color: #32bd7e;
+    text-decoration-thickness: 2px;
+}
+
+textarea {
+    width: 100%;
+    font-size: 1.10rem;
+}
+
+input {
+    font-size: 1.10rem;
+}
+
+content {
+    line-height: 1.6;
+}
+
+table {
+    width: 100%;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+code {
+    background-color: #e8e3e3;
+    font-size: 0.9rem;
+}
+
+pre {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    margin: 1rem 0;
+    padding: 1rem;
+}
+
+pre>code {
+    all: unset;
+}
+
+blockquote {
+    border: 1px solid #999;
+    color: #222;
+    padding: 2px 20px 2px 20px;
+    margin: 0px;
+    font-style: italic;
+}
+
+.slug-ul {
+    list-style-type: none;
+    padding: unset;
+}
+
+.slug-ul li {
+    display: flex;
+}
+
+.slug-ul li time {
+    flex: 0 0 130px;
+    font-style: italic;
+    color: #595959;
+}
+
+@media handheld,
+only screen and (max-width: 479px),
+only screen and (max-device-width: 479px) {
+    .slug-ul li {
+        flex-direction: column;
+        margin-bottom: 20px;
+    }
+
+    .slug-ul li time {
+        flex: 0;
+    }
+}
+
+.title {
+    font-size: 2em;
+    margin: 0.25em 0 0;
+}
+
+@media handheld,
+only screen and (max-width: 479px),
+only screen and (max-device-width: 479px) {
+    .title {
+        font-size: 1.5em;
+    }
+}

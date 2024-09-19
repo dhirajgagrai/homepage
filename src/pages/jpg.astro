@@ -1,0 +1,102 @@
+---
+import { getCollection } from "astro:content";
+import { Image } from "astro:assets";
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import FormattedDate from "../components/FormattedDate.astro";
+
+const jpgs = (await getCollection("jpg")).sort(
+    (a, b) => b.data.serial - a.data.serial
+);
+---
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <BaseHead
+            title="JPG • gagrai.com"
+            description="Photo dump of Dhiraj Gagrai"
+        />
+        <style>
+            * {
+                color: #fff !important;
+            }
+            body {
+                margin: 0;
+                background-color: #000;
+                max-width: 100%;
+            }
+            i {
+                font-size: 0.8rem;
+            }
+            .header-container {
+                margin: auto;
+                max-width: 75ch;
+                width: 100%;
+            }
+            .image-container {
+                display: flex;
+                flex-direction: column;
+                margin-bottom: 50px;
+                align-items: center;
+            }
+            .image-title {
+                text-align: center;
+                font-size: 0.9rem;
+                font-weight: bolder;
+                margin: 20px 0;
+            }
+            .image-description {
+                display: inline-grid;
+                max-width: 75ch;
+                width: 100%;
+            }
+            .image-description i {
+                margin-top: 10px;
+            }
+            @media handheld,
+                only screen and (max-width: 479px),
+                only screen and (max-device-width: 479px) {
+                .image-description {
+                    margin: 0;
+                    min-width: 0;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="header-container">
+            <Header theme="dark" />
+        </div>
+        <main>
+            <section>
+                {
+                    jpgs.map(async (jpg) => {
+                        const { Content } = await jpg.render();
+                        return (
+                            <div class="image-container">
+                                <p class="image-title">{jpg.data.serial}</p>
+                                <Image
+                                    src={jpg.data.image}
+                                    height={jpg.data.width}
+                                    width={jpg.data.height}
+                                    alt={jpg.data.imageAlt}
+                                />
+                                <p class="image-title">{jpg.data.title}</p>
+                                <div class="image-description">
+                                    <Content />
+                                    <i>
+                                        Taken on{" "}
+                                        <FormattedDate date={jpg.data.date} />
+                                    </i>
+                                </div>
+                            </div>
+                        );
+                    })
+                }
+            </section>
+        </main>
+        <Footer />
+    </body>
+</html>

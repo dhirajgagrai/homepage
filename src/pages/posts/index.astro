@@ -1,0 +1,41 @@
+---
+import { getCollection } from "astro:content";
+import BaseHead from "../../components/BaseHead.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import FormattedDate from "../../components/FormattedDate.astro";
+
+const posts = (await getCollection("posts")).sort(
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <BaseHead
+            title="Posts • gagrai.com"
+            description="Posts of Dhiraj Gagrai"
+        />
+    </head>
+    <body>
+        <Header />
+        <main>
+            <section>
+                <ul class="slug-ul">
+                    {
+                        posts.map((post) => (
+                            <li>
+                                <FormattedDate date={post.data.pubDate} />
+                                <a href={`/posts/${post.slug}/`}>
+                                    {post.data.title}
+                                </a>
+                            </li>
+                        ))
+                    }
+                </ul>
+            </section>
+        </main>
+        <Footer />
+    </body>
+</html>

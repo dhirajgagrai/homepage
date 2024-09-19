@@ -1,0 +1,131 @@
+---
+import { getCollection } from "astro:content";
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import FormattedDate from "../components/FormattedDate.astro";
+import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
+
+const posts = (await getCollection("posts")).sort(
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const projects = (await getCollection("projects")).sort(
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+        <style>
+            h2 {
+                margin-bottom: 0.5rem;
+                font-weight: 600;
+                font-size: 1.5rem;
+                color: #d60000;
+            }
+            ul {
+                list-style-type: none;
+                padding: unset;
+            }
+            .projects li {
+                margin-bottom: 0.25rem;
+                text-align: justify;
+            }
+            .projects p {
+                display: inline;
+            }
+            .project-title {
+                font-weight: bolder;
+            }
+            .content {
+                margin-top: 2rem;
+            }
+            .about {
+                display: flex;
+                gap: 10px;
+            }
+            .about img {
+                width: 200px;
+                height: 200px;
+            }
+            @media handheld, only screen and (max-width: 479px), only screen and (max-device-width: 479px) {
+                .about {
+                    display: block;
+                }
+                .about img {
+                    margin-top: 10px;
+                    width: 100%;
+                    height: 250px;
+                    object-fit: cover;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <Header />
+        <main>
+            <div class="about">
+                <div class="text">
+                    <p>
+                        I'm Dhiraj, I like to self-learn different things. 
+                        I also like to build things, mostly software applications.
+                    </p>
+                    <br />
+                    <p>
+                        Find me on
+                        <a href="https://github.com/dhirajgagrai" target="_blank"
+                            >GitHub</a
+                        >,
+                        <a
+                            href="https://discordapp.com/users/458476095273041941"
+                            target="_blank">Discord</a
+                        > or
+                        <a href="mailto:dhirajgagrai@gmail.com">Email</a>.
+                    </p>
+                </div>
+            </div>
+            <div class="content">
+                <h2>Projects</h2>
+                <ul class="projects">
+                    {
+                        projects.map((project) => (
+                            <li>
+                                {project.data.link ? (
+                                    <a
+                                        href={project.data.link}
+                                        target="_blank"
+                                        class="project-title"
+                                    >
+                                        {project.data.title}<!--
+                                    --></a>
+                                ) : (
+                                    <p class="project-title">{project.data.title}</p>
+                                )}<!--
+                                -->: <p>{project.data.description}</p>
+                            </li>
+                        ))
+                    }
+                </ul>
+            </div>
+            <div class="content">
+                <h2>Posts</h2>
+                <ul class="slug-ul posts">
+                    {
+                        posts.map((post) => (
+                            <li>
+                                <FormattedDate date={post.data.pubDate} />
+                                <a href={`/posts/${post.slug}/`}>
+                                    {post.data.title}
+                                </a>
+                            </li>
+                        ))
+                    }
+                </ul>
+            </div>
+        </main>
+        <Footer />
+    </body>
+</html>
