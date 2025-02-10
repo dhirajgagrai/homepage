@@ -8,10 +8,12 @@ import FormattedDate from "../components/FormattedDate.astro";
 
 import cover_1 from "../assets/images/celeste-cover.png";
 import cover_2 from "../assets/images/lighthouse-cover.jpg";
+import cover_3 from "../assets/images/linux-cover.jpg";
 
 const postCovers: { [index: string]: ImageMetadata } = {
     "celeste-cover.png": cover_1,
     "lighthouse-cover.jpg": cover_2,
+    "linux-cover.jpg": cover_3,
 };
 
 type Props = CollectionEntry<"posts">["data"];
@@ -23,6 +25,7 @@ const coverFile = cover ? postCovers[cover] : undefined;
 
 <html lang="en">
     <head>
+        {coverFile && <meta property="og:image" content={coverFile.src} />}
         <BaseHead title={title} description={description} />
         <style>
             hr {
