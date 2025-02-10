@@ -2,7 +2,7 @@
 title: "Linux Kernel Development using Docker"
 description: "This post documents my setup for Linux kernel development, including tools, configurations, and workflows to streamline the process on MacOS."
 pubDate: "Feb 10 2025"
-cover: "linux-cover.jpg"
+cover: "../../assets/images/linux-cover.jpg"
 ---
 
 # Table of Contents

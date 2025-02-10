@@ -2,7 +2,7 @@
 title: "Celeste"
 description: "Celeste is a fresh modern 2D platformer. This game has one of the best sound and level designs"
 pubDate: "Apr 18 2023"
-cover: "celeste-cover.png"
+cover: "../../assets/images/celeste-cover.png"
 ---
 Celeste is probably the best 2D platformer game I have ever played because it is
 the only platformer I remember completing. I have beaten other platformers where
