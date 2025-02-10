@@ -47,21 +47,6 @@ const projects = (await getCollection("projects")).sort(
                 display: flex;
                 gap: 10px;
             }
-            .about img {
-                width: 200px;
-                height: 200px;
-            }
-            @media handheld, only screen and (max-width: 479px), only screen and (max-device-width: 479px) {
-                .about {
-                    display: block;
-                }
-                .about img {
-                    margin-top: 10px;
-                    width: 100%;
-                    height: 250px;
-                    object-fit: cover;
-                }
-            }
         </style>
     </head>
     <body>

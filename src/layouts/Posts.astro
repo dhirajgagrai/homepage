@@ -10,15 +10,13 @@ type Props = CollectionEntry<"posts">["data"];
 
 const { title, description, pubDate, cover } = Astro.props;
 
-const siteUrl = Astro.site?.toString() || "";
-const metaImageUrl = siteUrl.endsWith("/")
-    ? siteUrl.slice(0, -1).concat(cover.src)
-    : siteUrl.concat(cover.src);
+const imageUrl = new URL(cover.src, Astro.url);
 ---
 
 <html lang="en">
     <head>
-        {cover && <meta property="og:image" content={metaImageUrl} />}
+        <meta property="og:image" content={imageUrl} />
+        <meta property="twitter:image" content={imageUrl} />
         <BaseHead title={title} description={description} />
         <style>
             hr {
