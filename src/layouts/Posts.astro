@@ -9,11 +9,16 @@ import FormattedDate from "../components/FormattedDate.astro";
 type Props = CollectionEntry<"posts">["data"];
 
 const { title, description, pubDate, cover } = Astro.props;
+
+const siteUrl = Astro.site?.toString() || "";
+const metaImageUrl = siteUrl.endsWith("/")
+    ? siteUrl.slice(0, -1).concat(cover.src)
+    : siteUrl.concat(cover.src);
 ---
 
 <html lang="en">
     <head>
-        {cover && <meta property="og:image" content={cover.src} />}
+        {cover && <meta property="og:image" content={metaImageUrl} />}
         <BaseHead title={title} description={description} />
         <style>
             hr {
