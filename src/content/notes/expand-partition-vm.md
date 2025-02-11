@@ -25,7 +25,7 @@ nvme0n1                   259:0    0   60G  0 disk
 
 Show partition number:
 ```sh
-parted /dev/nvme0n1 print free
+sudo parted /dev/nvme0n1 print free
 ```
 
 Note the partition number at the end.
@@ -39,11 +39,11 @@ Number  Start   End     Size    File system  Name  Flags
 
 Use the `growpart` to expand the logical space:
 ```sh
-growpart /dev/nvme0n1 3
+sudo growpart /dev/nvme0n1 3
 ```
 
 Finally use the `lvextend` and `resize2fs` utility on `ubuntu--vg-ubuntu--lv` disk:
 ```sh
-lvextend -l +100%FREE /dev/ubuntu-vg/ubuntu-lv
-resize2fs /dev/mapper/ubuntu--vg-ubuntu--lv
+sudo lvextend -l +100%FREE /dev/ubuntu-vg/ubuntu-lv
+sudo resize2fs /dev/mapper/ubuntu--vg-ubuntu--lv
 ```
