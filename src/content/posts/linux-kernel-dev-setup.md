@@ -103,11 +103,11 @@ For testing changes, we use QEMU for virtualization. First download a Linux imag
    qemu-system-aarch64 \
       -monitor stdio \
       -display default,show-cursor=on \
-      -M virt,highmem=off \
+      -M virt \
       -accel hvf \
       -cpu host \
       -smp 4 \
-      -m 3000 \
+      -m 4G \
       -bios edk2-aarch64-code.fd \
       -device virtio-gpu-pci \
       -device qemu-xhci \
@@ -129,11 +129,11 @@ For testing changes, we use QEMU for virtualization. First download a Linux imag
    ```sh
    qemu-system-aarch64 \
       -nographic \
-      -M virt,highmem=off \
+      -M virt \
       -accel hvf \
       -cpu host \
       -smp 4 \
-      -m 3000 \
+      -m 4G \
       -bios edk2-aarch64-code.fd \
       -device virtio-gpu-pci \
       -device qemu-xhci \
@@ -228,11 +228,11 @@ Launch the installed image with newly built kernel:
 ```sh
 qemu-system-aarch64 \
    -nographic \
-   -M virt,highmem=off \
+   -M virt \
    -accel hvf \
    -cpu host \
    -smp 4 \
-   -m 3000 \
+   -m 4G \
    -device virtio-gpu-pci \
    -device qemu-xhci \
    -device usb-kbd \
