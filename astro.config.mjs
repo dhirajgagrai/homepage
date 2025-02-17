@@ -11,7 +11,7 @@ export default defineConfig({
   output: 'server',
   adapter: vercel(),
   redirects: {
-    '/linux-kernel-dev': {
+    '/linux-kernel-dev-setup': {
       status: 302,
       destination: '/posts/linux-kernel-dev-setup',
     },
