@@ -13,6 +13,8 @@ type Props = CollectionEntry<"posts">;
 
 const post = Astro.props;
 const { Content } = await post.render();
+
+export const prerender = true;
 ---
 
 <Posts {...post.data}>
