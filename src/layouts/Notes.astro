@@ -35,3 +35,42 @@ const { title, description, pubDate, cover } = Astro.props;
         <Footer />
     </body>
 </html>
+
+<script is:inline>
+    let copyButtonLabel = "Copy";
+    let codeBlocks = Array.from(document.querySelectorAll("pre"));
+
+    for (let codeBlock of codeBlocks) {
+        const langType = codeBlock.getAttribute('data-language');
+        if (langType == "plaintext") continue;
+        let wrapper = document.createElement("div");
+        wrapper.style.position = "relative";
+
+        let copyButton = document.createElement("button");
+        copyButton.className = "copy-code";
+        copyButton.innerHTML = copyButtonLabel;
+
+        codeBlock.setAttribute("tabindex", "0");
+        codeBlock.appendChild(copyButton);
+        codeBlock.parentNode.insertBefore(wrapper, codeBlock);
+        wrapper.appendChild(codeBlock);
+
+        copyButton.addEventListener("click", async () => {
+            await copyCode(codeBlock, copyButton);
+        });
+    }
+
+    async function copyCode(block, button) {
+        let code = block.querySelector("code");
+        let text = code.innerText;
+
+        await navigator.clipboard.writeText(text);
+
+        button.innerText = "Copied";
+
+        setTimeout(() => {
+            button.innerText = copyButtonLabel;
+        }, 700);
+    }
+</script>
+
