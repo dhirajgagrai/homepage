@@ -9,6 +9,8 @@ import FormattedDate from "../components/FormattedDate.astro";
 const jpgs = (await getCollection("jpg")).sort(
     (a, b) => b.data.serial - a.data.serial
 );
+
+export const prerender = true;
 ---
 
 <!DOCTYPE html>

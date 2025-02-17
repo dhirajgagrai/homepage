@@ -8,6 +8,8 @@ import FormattedDate from "../../components/FormattedDate.astro";
 const posts = (await getCollection("posts")).sort(
     (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
+
+export const prerender = true;
 ---
 
 <!DOCTYPE html>

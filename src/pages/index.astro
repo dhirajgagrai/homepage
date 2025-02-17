@@ -13,6 +13,8 @@ const posts = (await getCollection("posts")).sort(
 const projects = (await getCollection("projects")).sort(
     (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
+
+export const prerender = true;
 ---
 
 <!DOCTYPE html>
