@@ -13,6 +13,8 @@ export interface Props {
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
 const { title, description } = Astro.props;
+
+const logoUrl = new URL("favicon.png", Astro.url);
 ---
 
 <!-- Global Metadata -->
@@ -58,6 +60,7 @@ const { title, description } = Astro.props;
 <meta property="og:url" content={Astro.url} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
+<meta property="og:logo" content={logoUrl} />
 
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image" />
