@@ -43,9 +43,7 @@ const jpg = defineCollection({
         title: z.string(),
         image: z.string(),
         imageAlt: z.string(),
-        width: z.number(),
-        height: z.number(),
-        date: z
+        takenDate: z
             .string()
             .or(z.date())
             .transform((val) => new Date(val)),

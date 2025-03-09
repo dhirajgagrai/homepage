@@ -81,8 +81,8 @@ export const prerender = true;
                                 <p class="image-title">{jpg.data.serial}</p>
                                 <Image
                                     src={jpg.data.image}
-                                    height={jpg.data.width}
-                                    width={jpg.data.height}
+                                    height=783
+                                    width=783
                                     alt={jpg.data.imageAlt}
                                 />
                                 <p class="image-title">{jpg.data.title}</p>
@@ -90,7 +90,7 @@ export const prerender = true;
                                     <Content />
                                     <i>
                                         Taken on{" "}
-                                        <FormattedDate date={jpg.data.date} />
+                                        <FormattedDate date={jpg.data.takenDate} />
                                     </i>
                                 </div>
                             </div>
