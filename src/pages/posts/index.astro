@@ -35,7 +35,7 @@ const newImageSrc = await Promise.all(posts.map(async (post) => {
                         posts.map((post, i) => (
                             <li>
                                 <FormattedDate date={post.data.pubDate} />
-                                <a class="prefetch-target" href={`/posts/${post.slug}/`} data-astro-prefetch img-prefetch={newImageSrc[i]?.src}>
+                                <a class="prefetch-target" href={`/posts/${post.slug}/`} img-prefetch={newImageSrc[i]?.src}>
                                     {post.data.title}
                                 </a>
                             </li>

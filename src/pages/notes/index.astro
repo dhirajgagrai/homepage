@@ -27,7 +27,7 @@ const notes = (await getCollection("notes")).sort(
                         notes.map((note) => (
                             <li>
                                 <FormattedDate date={note.data.pubDate} />
-                                <a href={`/notes/${note.slug}/`} data-astro-prefetch>
+                                <a href={`/notes/${note.slug}/`}>
                                     {note.data.title}
                                 </a>
                             </li>

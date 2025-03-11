@@ -121,7 +121,7 @@ const projects = (await getCollection("projects")).sort(
                         posts.map((post, i) => (
                             <li>
                                 <FormattedDate date={post.data.pubDate} />
-                                <a class="prefetch-target" href={`/posts/${post.slug}/`} data-astro-prefetch img-prefetch={newImageSrc[i]?.src}>
+                                <a class="prefetch-target" href={`/posts/${post.slug}/`} img-prefetch={newImageSrc[i]?.src}>
                                     {post.data.title}
                                 </a>
                             </li>

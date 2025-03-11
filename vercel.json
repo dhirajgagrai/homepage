@@ -4,16 +4,6 @@
   },
   "headers": [
     {
-      "source": "/(.*)",
-      "has": [{ "type": "header", "key": "Accept", "value": "text/html" }],
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=60, stale-while-revalidate=300"
-        }
-      ]
-    },
-    {
       "source": "/fonts/(.*)",
       "headers": [
         {

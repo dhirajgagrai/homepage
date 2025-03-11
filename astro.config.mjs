@@ -10,7 +10,6 @@ export default defineConfig({
   integrations: [sitemap()],
   output: 'static',
   adapter: vercel(),
-  prefetch: true,
   redirects: {
     '/linux-kernel-dev-setup': {
       status: 302,
