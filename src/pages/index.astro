@@ -1,5 +1,6 @@
 ---
 import { getCollection } from "astro:content";
+import { getImage } from "astro:assets";
 import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
@@ -9,6 +10,13 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 const posts = (await getCollection("posts")).sort(
     (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
+
+const newImageSrc = await Promise.all(posts.map(async (post) => {
+    if (post.data.cover) {
+        return await getImage({src: post?.data?.cover});
+    }
+    return undefined;
+}));
 
 const projects = (await getCollection("projects")).sort(
     (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
@@ -110,10 +118,10 @@ const projects = (await getCollection("projects")).sort(
                 <h2>Posts</h2>
                 <ul class="slug-ul posts">
                     {
-                        posts.map((post) => (
+                        posts.map((post, i) => (
                             <li>
                                 <FormattedDate date={post.data.pubDate} />
-                                <a href={`/posts/${post.slug}/`}>
+                                <a class="prefetch-target" href={`/posts/${post.slug}/`} data-astro-prefetch img-prefetch={newImageSrc[i]?.src}>
                                     {post.data.title}
                                 </a>
                             </li>
@@ -122,6 +130,15 @@ const projects = (await getCollection("projects")).sort(
                 </ul>
             </div>
         </main>
+        <script is:inline>
+            const links = document.querySelectorAll("a.prefetch-target");
+            links.forEach((link) => {
+                link.addEventListener("mouseenter", () => {
+                    const img = new Image();
+                    img.src = link.getAttribute("img-prefetch");
+                });
+            });
+        </script>
         <Footer />
     </body>
 </html>
