@@ -87,11 +87,9 @@ allowed to waste a single resource on these levels. These levels actually make y
 
 ## Soundtrack
 
-![Soundtrack](../../assets/images/celeste-soundtrack.png)
-
 If not for the Katana Zero, this game would probably have my all-time favourite OSTs. Sound design and music are what
-sets the tempo of this game. Sometimes it is serene and so smooth that you just stop and stare the artwork of the game.
-Other times it is exciting and makes you feel invincible even if you die 100 times in a level.
+sets the tempo of this game. Sometimes, it is serene and smooth and you just stop and stare the artwork of the game.
+Other times it is exciting and you feel invincible even if you die 100 times in a level.
 
 It is so fun cruising through the map while the music is hyping me up. I also tried to put on my music on
 Spotify while playing the game. The soundtrack works so great with the game that my playlist sounded utterly bland in comparison.
