@@ -1,6 +1,6 @@
 ---
 serial: 3
-title: "Testing dynamic range"
+title: "Testing Dynamic Range"
 image: "https://res.cloudinary.com/ddkhdbkyi/image/upload/v1741492859/testing-dynamic-range_wveqwn.jpg"
 imageAlt: "Picture of a moving train at night"
 takenDate: "Jan 01 2025"
