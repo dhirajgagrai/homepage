@@ -8,7 +8,7 @@ import vercel from '@astrojs/vercel';
 export default defineConfig({
   site: 'https://gagrai.com',
   integrations: [sitemap()],
-  output: 'server',
+  output: 'static',
   adapter: vercel(),
   prefetch: true,
   redirects: {

@@ -8,8 +8,6 @@ import FormattedDate from "../../components/FormattedDate.astro";
 const notes = (await getCollection("notes")).sort(
     (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
-
-export const prerender = true;
 ---
 
 <!DOCTYPE html>

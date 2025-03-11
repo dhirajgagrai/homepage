@@ -13,8 +13,6 @@ type Props = CollectionEntry<"notes">;
 
 const note = Astro.props;
 const { Content } = await note.render();
-
-export const prerender = true;
 ---
 
 <Notes {...note.data}>
