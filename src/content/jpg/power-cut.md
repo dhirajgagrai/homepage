@@ -2,7 +2,7 @@
 serial: 2
 title: "Power Cut"
 image: "https://res.cloudinary.com/ddkhdbkyi/image/upload/v1692670524/dhirajgagrai.dev/power-cut_y4qama.jpg"
-imageAlt: "Picture of a starry sky"
+imageAlt: "A starry sky"
 takenDate: "Jul 24 2023"
 ---
 

@@ -2,7 +2,7 @@
 serial: 1
 title: "A Sunday Evening"
 image: "https://res.cloudinary.com/ddkhdbkyi/image/upload/v1692619592/dhirajgagrai.dev/sunday-evening_ji8mdm.jpg"
-imageAlt: "Picture of a river and a bridge"
+imageAlt: "A river and a bridge going over it"
 takenDate: "Jun 25 2023"
 ---
 
