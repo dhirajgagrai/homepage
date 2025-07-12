@@ -39,7 +39,7 @@ You can check the previous iteration on GitHub history.
    So, we need to create a new partition using Disk Utility if we wish to have a shared volume.
    - Create a new partition of atleast 90GB.
    - Set the formatting option of this partition to **Mac OS Extended (Case-sensitive, Journaled)**.
-   - I gave the partition name as *Linux*. Make sure to change the symlink provided in the repo according to the partition name.
+   - I gave the partition name as _Linux_. Make sure to change the symlink provided in the repo according to the partition name.
 
 3. Install QEMU:
    ```sh
@@ -49,6 +49,7 @@ You can check the previous iteration on GitHub history.
 ## Setup Docker
 
 1. Build the docker image using dockerfile.
+
    ```sh
    docker build -t ubuntu-dev .
    ```
@@ -56,6 +57,7 @@ You can check the previous iteration on GitHub history.
    **Note:** We are using `ubuntu-dev` as the image name.
 
 2. Create container and mount home directory of username to the partition created above.
+
    ```sh
    docker run --name kernel-dev -it -v /Volumes/Linux:/home/maoth ubuntu-dev /bin/bash
    ```
@@ -63,21 +65,25 @@ You can check the previous iteration on GitHub history.
    **Note:** I have `maoth` as the username. Make changes as required. We are using `kernel-dev` as the name for container.
 
 3. After exiting from above, we may have to start the container:
+
    ```sh
    docker start kernel-dev
    ```
 
 4. Set sudo password for the user using root:
+
    ```sh
    docker exec -u root -ti kernel-dev /bin/bash
    ```
 
    Inside linux shell, use command given below to change password:
+
    ```sh
    passwd maoth
    ```
 
 5. We can exec normally now.
+
    ```sh
    docker exec -it kernel-dev /bin/bash
    ```
@@ -94,11 +100,13 @@ For testing changes, we use QEMU for virtualization. First download a Linux imag
 1. We need an UEFI firmware for booting QEMU, we can use the one provided with QEMU itself: `/opt/homebrew/Cellar/qemu/9.2.0/share/qemu/edk2-aarch64-code.fd`
 
 2. Create a disk somewhere:
+
    ```sh
    qemu-img create -f qcow2 ubuntu.img 30G
    ```
 
 3. Launch the image and install it from the QEMU graphical window:
+
    ```sh
    qemu-system-aarch64 \
       -monitor stdio \
@@ -126,6 +134,7 @@ For testing changes, we use QEMU for virtualization. First download a Linux imag
 ## Generate config and initrd
 
 1. After installing the image, launch the raw disk image:
+
    ```sh
    qemu-system-aarch64 \
       -nographic \
@@ -147,21 +156,25 @@ For testing changes, we use QEMU for virtualization. First download a Linux imag
    ```
 
 2. Run update:
+
    ```sh
    sudo apt update && sudo apt upgrade
    ```
 
 3. Copy the config file from `/boot`:
+
    ```sh
    cp /boot/config* ~/.config
    ```
 
 4. Generate the initrd file:
+
    ```sh
    sudo mkinitramfs -o ~/initrd.img
    ```
 
 5. Install and start SSH for file transfer:
+
    ```sh
    sudo apt install openssh-server
    sudo systemctl enable ssh
@@ -169,6 +182,7 @@ For testing changes, we use QEMU for virtualization. First download a Linux imag
    ```
 
 6. From MacOS shell, copy the files:
+
    ```sh
    scp -P 8022 maoth@localhost:{.config,initrd.img} .
    ```
@@ -181,16 +195,19 @@ For testing changes, we use QEMU for virtualization. First download a Linux imag
 ## Build Kernel
 
 1. Get into the Docker shell:
+
    ```sh
    docker exec -it kernel-dev /bin/bash
    ```
 
 2. Navigate into the kernel source directory:
+
    ```sh
    cd linux
    ```
 
 3. Build the config file:
+
    ```sh
    make olddefconfig
    ```
@@ -201,17 +218,20 @@ For testing changes, we use QEMU for virtualization. First download a Linux imag
    scripts/config --disable SYSTEM_REVOCATION_KEYS
    ```
 5. Build the kernel:
+
    ```sh
    make -j8
    ```
 
 6. Build the modules:
+
    ```sh
    mkdir -p ~/tmp_modules
-   make modules_install INSTALL_MOD_PATH=~/tmp_modules/ 
+   make modules_install INSTALL_MOD_PATH=~/tmp_modules/
    ```
 
 7. Give correct permissions:
+
    ```sh
    sudo chown -R root:root ~/tmp_modules/
    ```
@@ -225,6 +245,7 @@ For testing changes, we use QEMU for virtualization. First download a Linux imag
 ## Test Build
 
 Launch the installed image with newly built kernel:
+
 ```sh
 qemu-system-aarch64 \
    -nographic \
@@ -253,4 +274,3 @@ qemu-system-aarch64 \
 - [kernel.org](https://www.kernel.org/doc/html/latest/process/howto.html)
 - [VMWare Fusion](https://blogs.vmware.com/teamfusion/2024/05/fusion-pro-now-available-free-for-personal-use.html) - for kernel testing.
 - [Running a full arm64 system stack under QEMU](https://cdn.kernel.org/pub/linux/kernel/people/will/docs/qemu/qemu-arm64-howto.html)
-

@@ -7,138 +7,124 @@ import Footer from "../components/Footer.astro";
 import FormattedDate from "../components/FormattedDate.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 
-const posts = (await getCollection("posts")).sort(
-    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-);
+const posts = (await getCollection("posts")).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
-const newImageSrc = await Promise.all(posts.map(async (post) => {
+const newImageSrc = await Promise.all(
+  posts.map(async (post) => {
     if (post.data.cover) {
-        return await getImage({src: post?.data?.cover});
+      return await getImage({ src: post?.data?.cover });
     }
     return undefined;
-}));
-
-const projects = (await getCollection("projects")).sort(
-    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+  }),
 );
+
+const projects = (await getCollection("projects")).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-    <head>
-        <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-        <style>
-            h2 {
-                margin-bottom: 0.5rem;
-                font-weight: 600;
-                font-size: 1.5rem;
-                color: #d60000;
-            }
-            ul {
-                list-style-type: none;
-                padding: unset;
-            }
-            .projects li {
-                margin-bottom: 0.25rem;
-                text-align: justify;
-            }
-            .projects p {
-                display: inline;
-            }
-            .project-title {
-                font-weight: bolder;
-            }
-            .content {
-                margin-top: 2rem;
-            }
-            .about {
-                display: flex;
-                gap: 10px;
-            }
-        </style>
-    </head>
-    <body>
-        <Header />
-        <main>
-            <div class="about">
-                <div class="text">
-                    <p>
-                        I'm Dhiraj, I like to learn different things. 
-                        I also like to build things, mostly software and little bit of videos.
-                        I am mostly interested in systems, databases and compilers.
-                        Recently, I purged my GitHub profile and have started cooking new things.
-                        So, do checkout the stuff I am working on and throw in some PRs please.
-                        <br />
-                        Currently, I am planning to pursue my Master's degree starting this year (2025) full-time.
-                        Please, feel free to reach out to me if you know me from somewhere on the Internet.
-                    </p>
-                    <br />
-                    <p>
-                        Find me on
-                        <a
-                            href="https://github.com/dhirajgagrai"
-                            target="_blank">GitHub</a
-                        >,
-                        <a
-                            href="https://www.reddit.com/user/pogmaoth"
-                            target="_blank">Reddit</a
-                        >, 
-                        <a
-                            href="https://discordapp.com/users/458476095273041941"
-                            target="_blank">Discord</a
-                        > or
-                        <a href="mailto:dhirajgagrai@gmail.com">Email</a>.
-                    </p>
-                </div>
-            </div>
-            <div class="content">
-                <h2>Projects</h2>
-                <ul class="projects">
-                    {
-                        projects.map((project) => (
-                            <li>
-                                {project.data.link ? (
-                                    <a
-                                        href={project.data.link}
-                                        target="_blank"
-                                        class="project-title"
-                                    >
-                                        {project.data.title}<!--
-                                    --></a>
-                                ) : (
-                                    <p class="project-title">{project.data.title}</p>
-                                )}<!--
-                                -->: <p>{project.data.description}</p>
-                            </li>
-                        ))
-                    }
-                </ul>
-            </div>
-            <div class="content">
-                <h2>Posts</h2>
-                <ul class="slug-ul posts">
-                    {
-                        posts.map((post, i) => (
-                            <li>
-                                <FormattedDate date={post.data.pubDate} />
-                                <a class="prefetch-target" href={`/posts/${post.slug}/`} img-prefetch={newImageSrc[i]?.src}>
-                                    {post.data.title}
-                                </a>
-                            </li>
-                        ))
-                    }
-                </ul>
-            </div>
-        </main>
-        <script is:inline>
-            const links = document.querySelectorAll("a.prefetch-target");
-            links.forEach((link) => {
-                link.addEventListener("mouseenter", () => {
-                    const img = new Image();
-                    img.src = link.getAttribute("img-prefetch");
-                });
-            });
-        </script>
-        <Footer />
-    </body>
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <style>
+      h2 {
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        font-size: 1.5rem;
+        color: #d60000;
+      }
+      ul {
+        list-style-type: none;
+        padding: unset;
+      }
+      .projects li {
+        margin-bottom: 0.25rem;
+        text-align: justify;
+      }
+      .projects p {
+        display: inline;
+      }
+      .project-title {
+        font-weight: bolder;
+      }
+      .content {
+        margin-top: 2rem;
+      }
+      .about {
+        display: flex;
+        gap: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <Header />
+    <main>
+      <div class="about">
+        <div class="text">
+          <p>
+            Hi, I'm Dhiraj! I love building things — mostly software, and occasionally videos. My primary interests are
+            in OS, databases, and compilers. Looking for research opportunities in systems and related areas.
+            <br />
+            I've recently given my GitHub a fresh start and am working on some new projects. Feel free to check them out
+            and if something catches your eye, do throw in some PRs!
+            <br />
+            <br />
+            I'm currently pursuing M.Tech in Computer Science at IISc (2025 - 2027). If you recognize me from somewhere on
+            the Internet, don’t hesitate to reach out and say hi!
+          </p>
+          <br />
+          <p>
+            Find me on
+            <a href="https://github.com/dhirajgagrai" target="_blank">GitHub</a>,
+            <a href="https://www.reddit.com/user/pogmaoth" target="_blank">Reddit</a>,
+            <a href="https://discordapp.com/users/458476095273041941" target="_blank">Discord</a> or
+            <a href="mailto:dhirajgagrai@gmail.com">Email</a>.
+          </p>
+        </div>
+      </div>
+      <div class="content">
+        <h2>Projects</h2>
+        <ul class="projects">
+          {
+            projects.map((project) => (
+              <li>
+                {project.data.link ? (
+                  <a href={project.data.link} target="_blank" class="project-title">
+                    {project.data.title}
+                  </a>
+                ) : (
+                  <p class="project-title">{project.data.title}</p>
+                )}
+                : <p>{project.data.description}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div class="content">
+        <h2>Posts</h2>
+        <ul class="slug-ul posts">
+          {
+            posts.map((post, i) => (
+              <li>
+                <FormattedDate date={post.data.pubDate} />
+                <a class="prefetch-target" href={`/posts/${post.slug}/`} img-prefetch={newImageSrc[i]?.src}>
+                  {post.data.title}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </main>
+    <script is:inline>
+      const links = document.querySelectorAll("a.prefetch-target");
+      links.forEach((link) => {
+        link.addEventListener("mouseenter", () => {
+          const img = new Image();
+          img.src = link.getAttribute("img-prefetch");
+        });
+      });
+    </script>
+    <Footer />
+  </body>
 </html>

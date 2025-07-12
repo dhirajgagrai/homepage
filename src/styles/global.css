@@ -1,31 +1,31 @@
 * {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 html {
-    overflow-y: scroll;
+  overflow-y: scroll;
 }
 
 body {
-    display: flex;
-    flex-direction: column;
-    font-family: 'Georgia', serif;
-    font-size: 1.1rem;
-    margin: auto;
-    padding: 0 10px;
-    max-width: 75ch;
-    min-height: 100vh;
-    text-align: left;
-    background-color: #f8f6ef;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    line-height: 1.5;
-    color: #444;
+  display: flex;
+  flex-direction: column;
+  font-family: "Georgia", serif;
+  font-size: 1.1rem;
+  margin: auto;
+  padding: 0 10px;
+  max-width: 75ch;
+  min-height: 100vh;
+  text-align: left;
+  background-color: #f8f6ef;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  line-height: 1.5;
+  color: #444;
 }
 
 main {
-    flex: 1;
+  flex: 1;
 }
 
 h1,
@@ -34,141 +34,135 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: 'DM Serif Display', 'Georgia', serif;
-    color: #222;
+  font-family: "DM Serif Display", "Georgia", serif;
+  color: #222;
 }
 
 strong,
 b,
 a {
-    color: #222;
+  color: #222;
 }
 
 a:hover {
-    text-decoration-color: #32bd7e;
-    text-decoration-thickness: 2px;
+  text-decoration-color: #32bd7e;
+  text-decoration-thickness: 2px;
 }
 
 textarea {
-    width: 100%;
-    font-size: 1.10rem;
+  width: 100%;
+  font-size: 1.1rem;
 }
 
 input {
-    font-size: 1.10rem;
+  font-size: 1.1rem;
 }
 
 content {
-    line-height: 1.6;
+  line-height: 1.6;
 }
 
 table {
-    width: 100%;
+  width: 100%;
 }
 
 img {
-    max-width: 100%;
-    height: auto;
+  max-width: 100%;
+  height: auto;
 }
 
 code {
-    background-color: #e8e3e3;
-    font-size: 0.9rem;
+  background-color: #e8e3e3;
+  font-size: 0.9rem;
 }
 
 pre {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.8rem;
-    margin: 1rem 0;
-    padding: 1rem;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.8rem;
+  margin: 1rem 0;
+  padding: 1rem;
 }
 
-pre>code {
-    all: unset;
+pre > code {
+  all: unset;
 }
 
 blockquote {
-    border: 1px solid #999;
-    color: #222;
-    padding: 2px 20px 2px 20px;
-    margin: 0px;
-    font-style: italic;
+  border: 1px solid #999;
+  color: #222;
+  padding: 2px 20px 2px 20px;
+  margin: 0px;
+  font-style: italic;
 }
 
 .slug-ul {
-    list-style-type: none;
-    padding: unset;
+  list-style-type: none;
+  padding: unset;
 }
 
 .slug-ul li {
-    display: flex;
+  display: flex;
 }
 
 .slug-ul li time {
-    flex: 0 0 130px;
-    font-style: italic;
-    color: #595959;
+  flex: 0 0 130px;
+  font-style: italic;
+  color: #595959;
 }
 
-@media handheld,
-only screen and (max-width: 479px),
-only screen and (max-device-width: 479px) {
-    .slug-ul li {
-        flex-direction: column;
-        margin-bottom: 20px;
-    }
+@media handheld, only screen and (max-width: 479px), only screen and (max-device-width: 479px) {
+  .slug-ul li {
+    flex-direction: column;
+    margin-bottom: 20px;
+  }
 
-    .slug-ul li time {
-        flex: 0;
-    }
+  .slug-ul li time {
+    flex: 0;
+  }
 }
 
 .title {
-    font-size: 2em;
-    margin: 0.25em 0 0;
+  font-size: 2em;
+  margin: 0.25em 0 0;
 }
 
-@media handheld,
-only screen and (max-width: 479px),
-only screen and (max-device-width: 479px) {
-    .title {
-        font-size: 1.5em;
-    }
+@media handheld, only screen and (max-width: 479px), only screen and (max-device-width: 479px) {
+  .title {
+    font-size: 1.5em;
+  }
 }
 
 .copy-code {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: .65rem;
-    position: absolute;
-    padding: .25rem .5rem;
-    border: none;
-    top: 0;
-    right: 0;
-    line-height: 1rem;
-    color: #97f4d1;
-    background-color: #332c6e;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.65rem;
+  position: absolute;
+  padding: 0.25rem 0.5rem;
+  border: none;
+  top: 0;
+  right: 0;
+  line-height: 1rem;
+  color: #97f4d1;
+  background-color: #332c6e;
 }
 
 .copy-code:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .posts-content h2 {
-    margin: 1rem 0;
-    font-weight: 600;
-    color: #d60000;
+  margin: 1rem 0;
+  font-weight: 600;
+  color: #d60000;
 }
 .posts-content p {
-    margin: 1rem 0;
+  margin: 1rem 0;
 }
 .posts-content ol {
-    margin: 1rem 0;
+  margin: 1rem 0;
 }
 
-@media handheld,
-    only screen and (max-width: 479px),
-    only screen and (max-device-width: 479px) {
-    .posts-content li {
-        margin: 1rem;
-    }
+@media handheld, only screen and (max-width: 479px), only screen and (max-device-width: 479px) {
+  .posts-content li {
+    margin: 1rem;
+  }
 }

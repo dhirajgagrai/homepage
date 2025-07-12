@@ -8,7 +8,7 @@ cover: "../../assets/images/lighthouse-cover.jpg"
 Google's Lighthouse uses six main metrics to audit the performance of a web page: FCP (First Contentful Paint),
 SI (Speed Index), LCP (Largest Contentful Paint), TTI (Time to Interactive), TBT (Total Blocking Time) and
 CLS (Cumulative Layout Shift). I won't be explaining this terminologies in this post as I am not yet properly
-acquainted with some of their mechanism. 
+acquainted with some of their mechanism.
 
 A simple and direct approach to achieving a perfect score is optimizing each metric separately. A point to consider while
 doing so is that all these metrics do not carry equal weightage for calculating the performance score.
@@ -16,13 +16,13 @@ doing so is that all these metrics do not carry equal weightage for calculating 
 ## Scoring Calculator
 
 At the time of writing, the Lighthouse v10 has the following distribution for the final score:
-| Metric    | Weightage |
+| Metric | Weightage |
 | --------- | --------- |
-| FCP       | 10%       |
-| SI        | 10%       |
-| LCP       | 25%       |
-| TBT       | 30%       |
-| CLS       | 25%       |
+| FCP | 10% |
+| SI | 10% |
+| LCP | 25% |
+| TBT | 30% |
+| CLS | 25% |
 
 TTI was assigned a weightage of 10% in v8 and v9 but removed from version 10. Its weightage is adjusted
 to CLS because TTI was affected by external factors too much. Quoting from the Chrome Developers'
@@ -58,7 +58,8 @@ balanced the LCP (~550ms) and SI (~950ms) values enough to give me the fireworks
 
 These observations help us to form a general understanding of how websites are supposed to behave.
 My interpretation of the weight allocation for SI and LCP is as follows:
+
 1. If the server response is longer, the page should be ready and minimal contentful action
-should be done when served. Hence, the heavier weightage for good LCP time.
+   should be done when served. Hence, the heavier weightage for good LCP time.
 2. If any contentful action happens client side, the audit expects the initial server response
-to be significantly faster.
+   to be significantly faster.

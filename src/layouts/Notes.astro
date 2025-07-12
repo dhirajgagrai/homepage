@@ -11,67 +11,66 @@ const { title, description, pubDate, cover } = Astro.props;
 ---
 
 <html lang="en">
-    <head>
-        <link rel="preload" href="/fonts/jetbrains-mono-regular.woff2" as="font" type="font/woff2" crossorigin>
-        <BaseHead title={title} description={description} />
-        <style>
-            hr {
-                border-top: 1px solid #ddd;
-                margin: 1rem 0;
-            }
-        </style>
-    </head>
+  <head>
+    <link rel="preload" href="/fonts/jetbrains-mono-regular.woff2" as="font" type="font/woff2" crossorigin />
+    <BaseHead title={title} description={description} />
+    <style>
+      hr {
+        border-top: 1px solid #ddd;
+        margin: 1rem 0;
+      }
+    </style>
+  </head>
 
-    <body>
-        <Header />
-        <main>
-            <article>
-                {cover && <img src={cover} alt="" />}
-                <h1 class="title">{title}</h1>
-                <FormattedDate date={pubDate} />
-                <hr />
-                <slot />
-            </article>
-        </main>
-        <Footer />
-    </body>
+  <body>
+    <Header />
+    <main>
+      <article>
+        {cover && <img src={cover} alt="" />}
+        <h1 class="title">{title}</h1>
+        <FormattedDate date={pubDate} />
+        <hr />
+        <slot />
+      </article>
+    </main>
+    <Footer />
+  </body>
 </html>
 
 <script is:inline>
-    let copyButtonLabel = "Copy";
-    let codeBlocks = Array.from(document.querySelectorAll("pre"));
+  let copyButtonLabel = "Copy";
+  let codeBlocks = Array.from(document.querySelectorAll("pre"));
 
-    for (let codeBlock of codeBlocks) {
-        const langType = codeBlock.getAttribute("data-language");
-        if (langType == "plaintext") continue;
-        let wrapper = document.createElement("div");
-        wrapper.style.position = "relative";
+  for (let codeBlock of codeBlocks) {
+    const langType = codeBlock.getAttribute("data-language");
+    if (langType == "plaintext") continue;
+    let wrapper = document.createElement("div");
+    wrapper.style.position = "relative";
 
-        let copyButton = document.createElement("button");
-        copyButton.className = "copy-code";
-        copyButton.innerHTML = copyButtonLabel;
+    let copyButton = document.createElement("button");
+    copyButton.className = "copy-code";
+    copyButton.innerHTML = copyButtonLabel;
 
-        codeBlock.setAttribute("tabindex", "0");
-        codeBlock.appendChild(copyButton);
-        codeBlock.parentNode.insertBefore(wrapper, codeBlock);
-        wrapper.appendChild(codeBlock);
+    codeBlock.setAttribute("tabindex", "0");
+    codeBlock.appendChild(copyButton);
+    codeBlock.parentNode.insertBefore(wrapper, codeBlock);
+    wrapper.appendChild(codeBlock);
 
-        copyButton.addEventListener("click", async () => {
-            await copyCode(codeBlock, copyButton);
-        });
-    }
+    copyButton.addEventListener("click", async () => {
+      await copyCode(codeBlock, copyButton);
+    });
+  }
 
-    async function copyCode(block, button) {
-        let code = block.querySelector("code");
-        let text = code.innerText;
+  async function copyCode(block, button) {
+    let code = block.querySelector("code");
+    let text = code.innerText;
 
-        await navigator.clipboard.writeText(text);
+    await navigator.clipboard.writeText(text);
 
-        button.innerText = "Copied";
+    button.innerText = "Copied";
 
-        setTimeout(() => {
-            button.innerText = copyButtonLabel;
-        }, 700);
-    }
+    setTimeout(() => {
+      button.innerText = copyButtonLabel;
+    }, 700);
+  }
 </script>
-
