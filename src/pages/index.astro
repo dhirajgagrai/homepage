@@ -38,6 +38,7 @@ const projects = (await getCollection("projects")).sort((a, b) => b.data.pubDate
       }
       .projects li {
         margin-bottom: 0.25rem;
+        hyphens: auto;
         text-align: justify;
       }
       .projects p {
@@ -52,6 +53,7 @@ const projects = (await getCollection("projects")).sort((a, b) => b.data.pubDate
       .about {
         display: flex;
         gap: 10px;
+        text-align: justify;
       }
     </style>
   </head>
@@ -88,13 +90,12 @@ const projects = (await getCollection("projects")).sort((a, b) => b.data.pubDate
             projects.map((project) => (
               <li>
                 {project.data.link ? (
-                  <a href={project.data.link} target="_blank" class="project-title">
-                    {project.data.title}
-                  </a>
+                  /* prettier-ignore */
+                  <p><a href={project.data.link} target="_blank" class="project-title">{project.data.title}</a>:</p>
                 ) : (
                   <p class="project-title">{project.data.title}</p>
                 )}
-                : <p>{project.data.description}</p>
+                <p>{project.data.description}</p>
               </li>
             ))
           }

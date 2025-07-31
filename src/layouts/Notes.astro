@@ -19,6 +19,9 @@ const { title, description, pubDate, cover } = Astro.props;
         border-top: 1px solid #ddd;
         margin: 1rem 0;
       }
+      .notes-content {
+        text-align: justify;
+      }
     </style>
   </head>
 
@@ -30,7 +33,9 @@ const { title, description, pubDate, cover } = Astro.props;
         <h1 class="title">{title}</h1>
         <FormattedDate date={pubDate} />
         <hr />
-        <slot />
+        <div class="notes-content">
+          <slot />
+        </div>
       </article>
     </main>
     <Footer />
