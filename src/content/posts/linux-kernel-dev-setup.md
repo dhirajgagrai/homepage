@@ -13,14 +13,15 @@ GitHub repo - [linux-kernel-development](https://github.com/dhirajgagrai/linux-k
 - [Prerequisites](#prerequisites)
 - [Setup Docker](#setup-docker)
 - [Setup QEMU](#setup-qemu)
-- [Generate config and initrd](#generate-config-and-initrd)
+- [Get Config](#get-config)
 - [Build Kernel](#build-kernel)
 - [Test Build](#test-build)
+- [Kernel Installation](#kernel-installation)
 - [Additional](#additional)
 
 ## Introduction
 
-This repository serves as a guide to set up a development environment in MacOS for working on the Linux kernel.
+This post serves as a guide to set up a development environment in MacOS for working on the Linux kernel.
 It includes essential tools, configurations, and practices to make my workflow efficient.
 My primary working machine is an M2 MacBook Air.
 
@@ -34,12 +35,12 @@ You can check the previous iteration on GitHub history.
 
 1. Install [Docker](https://www.docker.com/).
 
-2. This step is done because I want to use a shared volume between Docker and host system. This helps me in taking backups easily.
+2. I want to use a shared volume between Docker and host system. The following steps help me in taking backups easily.
    It is not possible to build the kernel in the case-insensitive file system of MacOS.
    So, we need to create a new partition using Disk Utility if we wish to have a shared volume.
    - Create a new partition of atleast 90GB.
    - Set the formatting option of this partition to **Mac OS Extended (Case-sensitive, Journaled)**.
-   - I gave the partition name as _Linux_. Make sure to change the symlink provided in the repo according to the partition name.
+   - I gave the partition name as *Linux*. Make sure to change the symlink provided in the repo according to the partition name.
 
 3. Install QEMU:
    ```sh
@@ -49,7 +50,6 @@ You can check the previous iteration on GitHub history.
 ## Setup Docker
 
 1. Build the docker image using dockerfile.
-
    ```sh
    docker build -t ubuntu-dev .
    ```
@@ -57,33 +57,28 @@ You can check the previous iteration on GitHub history.
    **Note:** We are using `ubuntu-dev` as the image name.
 
 2. Create container and mount home directory of username to the partition created above.
-
    ```sh
    docker run --name kernel-dev -it -v /Volumes/Linux:/home/maoth ubuntu-dev /bin/bash
    ```
 
    **Note:** I have `maoth` as the username. Make changes as required. We are using `kernel-dev` as the name for container.
 
-3. After exiting from above, we may have to start the container:
-
+3. After exiting from above, we may have to start the container (not sure):
    ```sh
    docker start kernel-dev
    ```
 
 4. Set sudo password for the user using root:
-
    ```sh
    docker exec -u root -ti kernel-dev /bin/bash
    ```
 
    Inside linux shell, use command given below to change password:
-
    ```sh
    passwd maoth
    ```
 
 5. We can exec normally now.
-
    ```sh
    docker exec -it kernel-dev /bin/bash
    ```
@@ -100,13 +95,11 @@ For testing changes, we use QEMU for virtualization. First download a Linux imag
 1. We need an UEFI firmware for booting QEMU, we can use the one provided with QEMU itself: `/opt/homebrew/Cellar/qemu/9.2.0/share/qemu/edk2-aarch64-code.fd`
 
 2. Create a disk somewhere:
-
    ```sh
-   qemu-img create -f qcow2 ubuntu.img 30G
+   qemu-img create -f qcow2 ubuntu.img 50G
    ```
 
-3. Launch the image and install it from the QEMU graphical window:
-
+3. Launch the image and install it on the created disk using the QEMU graphical window:
    ```sh
    qemu-system-aarch64 \
       -monitor stdio \
@@ -129,15 +122,15 @@ For testing changes, we use QEMU for virtualization. First download a Linux imag
       -cdrom /Volumes/Expansion/BACKUPS_Images/ubuntu-24.04.1-live-server-arm64.iso
    ```
 
-   **Note:** Provide the correct path to images above in `file` and `-cdrom` option.
+   **Note:** Provide the correct path to image above in `file` and ISO file in `-cdrom` option.
 
-## Generate config and initrd
+## Get Config
 
-1. After installing the image, launch the raw disk image:
-
+1. After installation is done, launch the raw disk image:
    ```sh
    qemu-system-aarch64 \
-      -nographic \
+      -monitor stdio \
+      -display default,show-cursor=on \
       -M virt \
       -accel hvf \
       -cpu host \
@@ -156,58 +149,47 @@ For testing changes, we use QEMU for virtualization. First download a Linux imag
    ```
 
 2. Run update:
-
    ```sh
    sudo apt update && sudo apt upgrade
    ```
 
 3. Copy the config file from `/boot`:
-
    ```sh
    cp /boot/config* ~/.config
    ```
 
-4. Generate the initrd file:
-
-   ```sh
-   sudo mkinitramfs -o ~/initrd.img
-   ```
-
-5. Install and start SSH for file transfer:
-
+4. Install and start SSH for file transfer:
    ```sh
    sudo apt install openssh-server
    sudo systemctl enable ssh
    sudo systemctl start ssh
    ```
 
-6. From MacOS shell, copy the files:
-
+5. From MacOS shell, copy the files:
    ```sh
-   scp -P 8022 maoth@localhost:{.config,initrd.img} .
+   scp -P 8022 maoth@localhost:{.config} .
    ```
 
-7. Move the config file into linux source directory:
+6. Move the config file into linux source directory:
    ```sh
    mv .config /Volumes/Linux/linux/
    ```
 
+   **Note:** `/Volumes/Linux/` is the partition I created previously in *Prerequisites* step 2.
+
 ## Build Kernel
 
 1. Get into the Docker shell:
-
    ```sh
    docker exec -it kernel-dev /bin/bash
    ```
 
 2. Navigate into the kernel source directory:
-
    ```sh
    cd linux
    ```
 
 3. Build the config file:
-
    ```sh
    make olddefconfig
    ```
@@ -218,42 +200,83 @@ For testing changes, we use QEMU for virtualization. First download a Linux imag
    scripts/config --disable SYSTEM_REVOCATION_KEYS
    ```
 5. Build the kernel:
-
    ```sh
    make -j8
    ```
 
-6. Build the modules:
+## Kernel Installation
 
+1. Build the modules and copy required files:
    ```sh
    mkdir -p ~/tmp_modules
    make modules_install INSTALL_MOD_PATH=~/tmp_modules/
+   cp arch/arm64/boot/Image ~/tmp_modules/
+   cp .config ~/tmp_modules/config-<kernel-version>
    ```
 
-7. Give correct permissions:
+   **Note:** Find the kernel version in `tmp_modules/lib/modules/<kernel-version>`.
 
+2. We need to copy files to QEMU machine. First share the directory created above:
    ```sh
-   sudo chown -R root:root ~/tmp_modules/
+   qemu-system-aarch64 \
+      -monitor stdio \
+      -display default,show-cursor=on \
+      -M virt \
+      -accel hvf \
+      -cpu host \
+      -smp 4 \
+      -m 4G \
+      -bios edk2-aarch64-code.fd \
+      -device virtio-gpu-pci \
+      -device qemu-xhci \
+      -device usb-kbd \
+      -device usb-tablet \
+      -device intel-hda \
+      -device hda-duplex \
+      -device virtio-net-pci,netdev=net0 \
+      -netdev user,id=net0,hostfwd=tcp::8022-:22 \
+      -drive if=virtio,file=ubuntu.img,format=qcow2 \
+      -fsdev local,id=host_share,path=tmp_modules,security_model=passthrough \
+      -device virtio-9p-pci,fsdev=host_share,mount_tag=build_share
    ```
 
-8. Copy files to QEMU machine:
+3. Mount the shared directory inside QEMU:
    ```sh
-   cd ~/tmp_modules
-   tar cfp - * | ssh -p 8022 root@host.docker.internal '(cd / && tar xfp - -k)'
+   sudo mkdir -p /mnt/host_share
+   sudo mount -t 9p -o trans=virtio,version=9p2000.L build_share /mnt/host_share
+   ```
+
+4. Copy the files:
+   ```sh
+   sudo cp -r /mnt/host_share/lib/modules/<kernel-version> /lib/modules/
+   sudo cp /mnt/host_share/Image /boot/vmlinuz-<kernel-version>
+   sudo cp /mnt/host_share/config-<kernel-version> /boot/
+   ```
+
+5. Generate `initrd` and update GRUB:
+   ```sh
+   sudo update-initramfs -c -k <kernel-version>
+   ```
+
+6. Make changes to the GRUB. Comment out `GRUB_TIMEOUT_STYLE` and set timeout to some positive value `GRUB_TIMEOUT = 5`.
+   ```sh
+   sudo vi /etc/default/grub
+   sudo update-grub
    ```
 
 ## Test Build
 
-Launch the installed image with newly built kernel:
-
+Launch the installed image and selet the newly installed kernel in GRUB menu:
 ```sh
 qemu-system-aarch64 \
-   -nographic \
+   -monitor stdio \
+   -display default,show-cursor=on \
    -M virt \
    -accel hvf \
    -cpu host \
    -smp 4 \
    -m 4G \
+   -bios edk2-aarch64-code.fd \
    -device virtio-gpu-pci \
    -device qemu-xhci \
    -device usb-kbd \
@@ -261,10 +284,7 @@ qemu-system-aarch64 \
    -device intel-hda \
    -device hda-duplex \
    -device virtio-net-pci,netdev=net0 \
-   -netdev user,id=net0,hostfwd=tcp::8022-:22 \
-   -drive if=virtio,file=ubuntu.img,format=qcow2 \
-   -kernel linux/arch/arm64/boot/Image -initrd initrd.img \
-   -append "root=/dev/mapper/ubuntu--vg-ubuntu--lv"
+   -netdev user,id=net0,hostfwd=tcp::8022-:22
 ```
 
 ## Additional
