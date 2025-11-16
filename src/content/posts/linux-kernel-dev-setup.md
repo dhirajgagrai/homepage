@@ -194,7 +194,7 @@ For testing changes, we use QEMU for virtualization. First download a Linux imag
    make olddefconfig
    ```
 
-4. Run the following scripts to disbale errors regarding certificates:
+4. Run the following scripts to disable errors regarding certificates:
    ```sh
    scripts/config --disable SYSTEM_TRUSTED_KEYS
    scripts/config --disable SYSTEM_REVOCATION_KEYS
